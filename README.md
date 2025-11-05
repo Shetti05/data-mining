@@ -1,0 +1,350 @@
+import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split
+from sklearn import svm
+from sklearn.metrics import accuracy_score
+# loading the diabetes dataset to a pandas DataFrame
+dataset = pd.read_csv('/content/Final_Augmented_dataset_Diseases_and_Symptoms.csv')
+dataset.head()
+dataset.shape
+dataset.describe()
+dataset['diseases'].value_counts()
+dataset.groupby('diseases').mean()
+# separating the data and labels
+X = dataset.drop(columns = 'diseases', axis=1)
+Y = dataset['diseases']
+print(Y)
+X_train, X_test, Y_train, Y_test = train_test_split(X,Y, test_size = 0.2, random_state=2)
+print(X.shape, X_train.shape, X_test.shape)
+model = svm.SVC(kernel='linear')
+from sklearn.impute import SimpleImputer
+# Impute missing values with the mean of the training data
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+X_train_imputed = imputer.fit_transform(X_train)
+ 
+model.fit(X_train_imputed, Y_train)
+# prediction on training data
+X_train_prediction = model.predict(X_train_imputed)
+training_data_accuracy = accuracy_score(X_train_prediction, Y_train)
+# Impute missing values in the test data using the imputer fitted on the training data
+X_test_imputed = imputer.transform(X_test)
+ 
+# prediction on test data
+X_test_prediction = model.predict(X_test_imputed)
+test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+print('Accuracy score of the training data : ', training_data_accuracy)
+print('Accuracy score of the test data : ', test_data_accuracy)
+# The model expects 377 features as input, representing the symptoms.
+# You need to replace this placeholder data with the actual symptom data you want to use for prediction.
+# Make sure the input data has 377 values, corresponding to the symptoms in the training data.
+input_data = np.zeros(377) # Placeholder data with 377 features. Replace with actual symptom data.
+ 
+# changing the input_data to numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+ 
+# reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+ 
+# Impute missing values in the input data using the imputer fitted on the training data
+input_data_imputed = imputer.transform(input_data_reshaped)
+ 
+prediction = model.predict(input_data_imputed)
+print(prediction)
+ 
+# The original code checked for '0' for non-diabetic. Since this model predicts diseases based on symptoms,
+# the output will be a disease name from your dataset.
+# You can print the predicted disease name directly.
+print('The predicted disease is:', prediction[0])
+# Impute missing values in the test data using the imputer fitted on the training data
+X_test_imputed = imputer.transform(X_test)
+ 
+# prediction on test data
+X_test_prediction = model.predict(X_test_imputed)
+test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+print('Accuracy score of the training data : ', training_data_accuracy)
+print('Accuracy score of the test data : ', test_data_accuracy)
+# The model expects 377 features as input, representing the symptoms.
+# You need to replace this placeholder data with the actual symptom data you want to use for prediction.
+# Make sure the input data has 377 values, corresponding to the symptoms in the training data.
+input_data = np.zeros(377) # Placeholder data with 377 features. Replace with actual symptom data.
+ 
+# changing the input_data to numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+ 
+# reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+ 
+# Impute missing values in the input data using the imputer fitted on the training data
+input_data_imputed = imputer.transform(input_data_reshaped)
+ 
+prediction = model.predict(input_data_imputed)
+print(prediction)
+ 
+# The original code checked for '0' for non-diabetic. Since this model predicts diseases based on symptoms,
+# the output will be a disease name from your dataset.
+# You can print the predicted disease name directly.
+print('The predicted disease is:', prediction[0])
+# prediction on test data
+X_test_prediction = model.predict(X_test)
+test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+print('Accuracy score of the training data : ', training_data_accuracy)
+print('Accuracy score of the test data : ', test_data_accuracy)
+from sklearn.impute import SimpleImputer
+ 
+# Impute missing values with the mean of the training data
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+X_train = imputer.fit_transform(X_train)
+X_test = imputer.transform(X_test)
+# The model expects 377 features as input, representing the symptoms.
+# You need to replace this placeholder data with the actual symptom data you want to use for prediction.
+# Make sure the input data has 377 values, corresponding to the symptoms in the training data.
+input_data = np.zeros(377) # Placeholder data with 377 features. Replace with actual symptom data.
+ 
+# changing the input_data to numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+ 
+# reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+ 
+prediction = model.predict(input_data_reshaped)
+print(prediction)
+ 
+# The original code checked for '0' for non-diabetic. Since this model predicts diseases based on symptoms,
+# the output will be a disease name from your dataset.
+# You can print the predicted disease name directly.
+print('The predicted disease is:', prediction[0])
+from sklearn.ensemble import GradientBoostingClassifier
+model2 = GradientBoostingClassifier(loss='log_loss', learning_rate=0.1, n_estimators=200, max_features='sqrt')
+# training the GB model with training data
+model2.fit(X_train, Y_train)
+# accuracy score on training data
+X_train_prediction = model2.predict(X_train)
+training_data_accuracy = accuracy_score(Y_train, X_train_prediction)
+print('Accuracy score of training data : ', training_data_accuracy)
+# accuracy score on training data
+X_test_prediction = model2.predict(X_test)
+test_data_accuracy = accuracy_score(Y_test, X_test_prediction)
+print('Accuracy score of test data : ', test_data_accuracy)
+# The model expects 377 features as input, representing the symptoms.
+# You need to replace this placeholder data with the actual symptom data you want to use for prediction.
+# Make sure the input data has 377 values, corresponding to the symptoms in the training data.
+input_data = np.zeros(377) # Placeholder data with 377 features. Replace with actual symptom data.
+ 
+# changing the input_data to numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+ 
+# reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+ 
+prediction = model2.predict(input_data_reshaped)
+print(prediction)
+ 
+# The original code checked for '0' for non-diabetic. Since this model predicts diseases based on symptoms,
+# the output will be a disease name from your dataset.
+# You can print the predicted disease name directly.
+print('The predicted disease is:', prediction[0])
+from sklearn.linear_model import LogisticRegression
+model3 = LogisticRegression()
+# training the LogisticRegression model with Training data
+model3.fit(X_train, Y_train)
+# accuracy on training data
+X_train_prediction = model3.predict(X_train)
+training_data_accuracy = accuracy_score(X_train_prediction, Y_train)
+print('Accuracy on Training data : ', training_data_accuracy)
+# accuracy on test data
+X_test_prediction = model3.predict(X_test)
+test_data_accuracy = accuracy_score(X_test_prediction, Y_test)
+print('Accuracy on Test data : ', test_data_accuracy)
+# The model expects 377 features as input, representing the symptoms.
+# You need to replace this placeholder data with the actual symptom data you want to use for prediction.
+# Make sure the input data has 377 values, corresponding to the symptoms in the training data.
+input_data = np.zeros(377) # Placeholder data with 377 features. Replace with actual symptom data.
+ 
+# changing the input_data to numpy array
+input_data_as_numpy_array = np.asarray(input_data)
+ 
+# reshape the array as we are predicting for one instance
+input_data_reshaped = input_data_as_numpy_array.reshape(1,-1)
+ 
+prediction = model3.predict(input_data_reshaped)
+print(prediction)
+ 
+# The original code checked for '0' for non-diabetic. Since this model predicts diseases based on symptoms,
+# the output will be a disease name from your dataset.
+# You can print the predicted disease name directly.
+print('The predicted disease is:', prediction[0])
+# ===============================
+# STEP 5: Train Models
+# ===============================
+from sklearn.naive_bayes import MultinomialNB
+ 
+# --- Naive Bayes ---
+nb = MultinomialNB()
+nb.fit(X_train, Y_train)
+nb_pred = nb.predict(X_test)
+# ===============================
+# STEP 6: Evaluation
+# ===============================
+from sklearn.metrics import classification_report, confusion_matrix
+import matplotlib.pyplot as plt
+import seaborn as sns
+ 
+def evaluate_model(name, y_true, y_pred):
+    print(f"\n📊 Model: {name}")
+    print("Accuracy:", accuracy_score(y_true, y_pred))
+    print("Classification Report:\n", classification_report(y_true, y_pred))
+    cm = confusion_matrix(y_true, y_pred)
+    plt.figure(figsize=(10, 8))
+    sns.heatmap(cm, annot=True, fmt="d", cmap="Blues")
+    plt.title(f"{name} - Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.show()
+ 
+# Evaluate the SVM model
+evaluate_model("SVM", Y_test, X_test_prediction)
+ 
+# Evaluate the Naive Bayes model
+evaluate_model("Naive Bayes", Y_test, nb_pred)
+ 
+# Add evaluation for other models once their predictions are generated
+# ===============================
+# STEP 7: Comparison Plot
+# ===============================
+models = ['SVM', 'Naive Bayes']
+accuracies = [accuracy_score(Y_test, X_test_prediction), accuracy_score(Y_test, nb_pred)]
+ 
+plt.figure(figsize=(6, 4))
+sns.barplot(x=models, y=accuracies)
+plt.title("Model Accuracy Comparison")
+plt.ylabel("Accuracy")
+plt.ylim(0, 1)
+plt.show()
+ 
+print("\n✅ All steps completed successfully!")
+# ===============================
+# EXTRA VISUALIZATION 1: Dataset Overview
+# ===============================
+plt.figure(figsize=(8, 4))
+sns.countplot(y='diseases', data=diabetes_dataset, order=diabetes_dataset['diseases'].value_counts().index)
+plt.title("Disease Frequency Distribution")
+plt.xlabel("Count")
+plt.ylabel("Disease")
+plt.tight_layout()
+plt.show()
+# ===============================
+# EXTRA VISUALIZATION 2: Demographic Trends
+# ===============================
+gender_cols = [col for col in diabetes_dataset.columns if "Gender_" in col]
+bp_cols = [col for col in diabetes_dataset.columns if "Blood Pressure_" in col]
+chol_cols = [col for col in diabetes_dataset.columns if "Cholesterol Level_" in col]
+ 
+if gender_cols:
+    plt.figure(figsize=(5, 4))
+    df_gender = diabetes_dataset[gender_cols].sum()
+    sns.barplot(x=df_gender.index, y=df_gender.values)
+    plt.title("Gender Distribution")
+    plt.xticks(rotation=45)
+    plt.show()
+ 
+if bp_cols:
+    plt.figure(figsize=(5, 4))
+    df_bp = diabetes_dataset[bp_cols].sum()
+    sns.barplot(x=df_bp.index, y=df_bp.values)
+    plt.title("Blood Pressure Levels Distribution")
+    plt.xticks(rotation=45)
+    plt.show()
+ 
+if chol_cols:
+    plt.figure(figsize=(5, 4))
+    df_chol = diabetes_dataset[chol_cols].sum()
+    sns.barplot(x=df_chol.index, y=df_chol.values)
+    plt.title("Cholesterol Level Distribution")
+    plt.xticks(rotation=45)
+    plt.show()
+# ===============================
+# EXTRA VISUALIZATION 3: Predicted vs Actual Diseases
+# ===============================
+plt.figure(figsize=(8, 4))
+sns.scatterplot(x=Y_test, y=X_test_prediction, alpha=0.7)
+plt.xlabel("Actual Disease (Encoded)")
+plt.ylabel("Predicted Disease (Encoded)")
+plt.title("Actual vs Predicted Disease (SVM)")
+plt.show()
+# ===============================
+# EXTRA VISUALIZATION 4: Enhanced Accuracy Plot
+# ===============================
+plt.figure(figsize=(6, 4))
+bars = sns.barplot(x=models, y=accuracies, palette="viridis")
+plt.title("Model Accuracy Comparison")
+plt.ylabel("Accuracy")
+plt.ylim(0, 1)
+for bar in bars.patches:
+    plt.text(
+        bar.get_x() + bar.get_width() / 2,
+        bar.get_height() + 0.01,
+        f"{bar.get_height():.2f}",
+        ha="center", va="bottom", fontsize=11, fontweight="bold"
+    )
+plt.show()
+# ---------- Dimensionality reduction visualizations ----------
+from sklearn.decomposition import PCA
+from sklearn.impute import SimpleImputer
+import numpy as np # Import numpy if not already imported
+ 
+# Impute missing values in the original X before PCA
+imputer = SimpleImputer(missing_values=np.nan, strategy='mean')
+X_imputed = imputer.fit_transform(X)
+ 
+# PCA 2D
+pca = PCA(n_components=2)
+X_pca = pca.fit_transform(X_imputed)  # use imputed X for PCA
+plt.figure(figsize=(8,6))
+sns.scatterplot(x=X_pca[:,0], y=X_pca[:,1], hue=Y, palette='tab10', legend='full', s=30)
+plt.title("PCA projection (2D) of symptom space")
+plt.xlabel("PC1"); plt.ylabel("PC2")
+plt.show()
+from sklearn.manifold import TSNE
+from sklearn.preprocessing import StandardScaler
+ 
+# t-SNE (computationally heavier)
+# Sample a smaller subset of data for t-SNE
+X_sample = X_imputed.copy() # Use the imputed data
+y_sample = Y.copy()
+ 
+if len(X_sample) > 1000:
+    sample_indices = np.random.choice(len(X_sample), 1000, replace=False)
+    X_sample = X_sample[sample_indices]
+    y_sample = y_sample.iloc[sample_indices]
+ 
+# Scale the data before t-SNE
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X_sample)
+ 
+tsne = TSNE(n_components=2, perplexity=30, n_iter=1000, random_state=42) # Add a random state for reproducibility
+X_tsne = tsne.fit_transform(X_scaled)
+ 
+plt.figure(figsize=(8,6))
+sns.scatterplot(x=X_tsne[:,0], y=X_tsne[:,1], hue=y_sample, palette='tab10', legend='full', s=30)
+plt.title("t-SNE (sample up to 1000 rows)")
+plt.show()
+# ---------- Symptom-level EDA ----------
+# symptom frequency counts (if symptom columns exist)
+if isinstance(X, pd.DataFrame):
+    # If columns are many, show top 30 symptoms by prevalence
+    freq = X.sum(axis=0).sort_values(ascending=False)
+    top = freq.head(30)
+    plt.figure(figsize=(10,6))
+    sns.barplot(x=top.values, y=top.index)
+    plt.title("Top symptom frequencies")
+    plt.xlabel("Count (patients with symptom)")
+    plt.tight_layout()
+    plt.show()
+# Correlation heatmap among top symptoms (binary)
+if isinstance(X, pd.DataFrame):
+    top_symptoms = top.index[:20]
+    corr = X[top_symptoms].corr()
+    plt.figure(figsize=(10,8))
+    sns.heatmap(corr, annot=False, cmap='coolwarm')
+    plt.title("Correlation between top symptoms")
+    plt.show()
